@@ -9,7 +9,7 @@ public class Start {
             while (scanner.hasNext() ){
                 String command = scanner.nextLine().toLowerCase().trim();
                 switch (command){
-                    case "create" : crud.crate();
+                    case "create" : crud.create();
                     break;
                     case "read" : crud.read();
                     break;
