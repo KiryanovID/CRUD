@@ -50,7 +50,7 @@ public class CRUD {
         int find = scanner.nextInt();
         try {
             statement = conn.createStatement();
-            resultSet = statement.executeQuery("Select * from country where id = "+ find +";");
+            resultSet = statement.executeQuery("Select * from country where id = " + find + ";");
             String name = resultSet.getString("name");
             long square = resultSet.getLong("square");
             int population = resultSet.getInt("population");
@@ -67,50 +67,75 @@ public class CRUD {
     }
 
     public void update() {
-        try {
-            statement = conn.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Country tempCountry = null;
         System.out.println("введите ID страны");
         int find = scanner.nextInt();
         scanner.nextLine();
+        try {
+            statement = conn.createStatement();
+            resultSet = statement.executeQuery("Select * from country where id = " + find + ";");
+            String name = resultSet.getString("name");
+            long square = resultSet.getLong("square");
+            int population = resultSet.getInt("population");
+            String continent = resultSet.getString("continent");
+            Continent tempContinent = Continent.valueOf(continent);
+            tempCountry = new Country(name, square, population, tempContinent);
+        } catch (SQLException e) {
+            System.out.println("exception");
+        }
+
         System.out.println("Введите название страны:");
         String name = scanner.nextLine().trim();
         if (!name.equals("")) {
-            try {
-                statement.execute("update country set name = '" + name + "' where id = " + find + ";");
-            } catch (SQLException e) {
-                System.out.println("ошибка в названии");
-                e.printStackTrace();
-            }
+            tempCountry.setName(name);
         }
         System.out.println("Введите континет на котором находится страна:");
         String conti = scanner.nextLine().toUpperCase(Locale.ROOT).trim();
         if (!conti.equals("")) {
             try {
-                statement.execute("update country set continent = '" + conti + "' where id = " + find + ";");
-            } catch (SQLException e) {
-                System.out.println("ошибка в континенте");
+                Continent tempContinent = Continent.valueOf(conti);
+                tempCountry.setContinent(tempContinent);
+            } catch (IllegalArgumentException e) {
+                System.out.println("нет такого континета, изменения не внесены");
             }
         }
         System.out.println("Введите площадь страны:");
-        long square = scanner.nextLong();
-        if (square != 0) {
-            try {
-                statement.execute("update country set square = " + square + " where id = " + find + ";");
-            } catch (SQLException e) {
-                System.out.println("ошибка в площади");
+        try {
+            String strLong = scanner.nextLine();
+            long square = Long.parseLong(strLong);
+            if (square < 0) {
+                tempCountry.setSquare(0);
+                System.out.println("Установленно значение по умолчанию равное 0");
+            } else {
+                tempCountry.setSquare(square);
             }
+        } catch (NumberFormatException e) {
+            System.out.println("Значение не изменено");
         }
+
         System.out.println("Введите население страны:");
-        int population = scanner.nextInt();
-        if (population != 0) {
-            try {
-                statement.execute("update country set population = " + population + " where id = " + find + ";");
-            } catch (SQLException e) {
-                System.out.println("ошибка в населении");
+        try {
+            String strInt = scanner.nextLine();
+            int population = Integer.parseInt(strInt);
+            if (population < 0) {
+                tempCountry.setPopulation(0);
+                System.out.println("Установленно значение по умолчанию равное 0");
+            } else {
+                tempCountry.setPopulation(population);
             }
+        } catch (NumberFormatException e) {
+            System.out.println("Значение не изменено");
+        }
+        try {
+            statement = conn.createStatement();
+            statement.execute("UPDATE country " +
+                    "SET name = '" + tempCountry.getName() + "', " +
+                    "square = '" + tempCountry.getSquare() + "', " +
+                    "population = '" + tempCountry.getPopulation() + "', " +
+                    "continent = '" + tempCountry.getContinent() + "'" +
+                    "WHERE id = " + find + ";");
+        } catch (SQLException e) {
+            System.out.println("Ошибка записи в БД");
         }
         System.out.println("Введите команду: ");
     }
