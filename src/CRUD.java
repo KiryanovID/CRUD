@@ -2,6 +2,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -155,6 +157,7 @@ public class CRUD {
     }
 
     public void showAll() {
+        List<Country> resultList = new ArrayList<>();
         try {
             statement = conn.createStatement();
             resultSet = statement.executeQuery("Select * from country;");
@@ -163,11 +166,11 @@ public class CRUD {
                 long square = resultSet.getLong("square");
                 int population = resultSet.getInt("population");
                 String continent = resultSet.getString("continent");
-                System.out.println("Страна " + name + "\n" +
-                        "площадь " + square + "кв.км\n" +
-                        "население " + population + "чел.\n" +
-                        "континет " + continent);
-                System.out.println();
+                Continent tempContinent = Continent.valueOf(continent);
+                resultList.add(new Country(name,square,population,tempContinent));
+            }
+            for (Country country : resultList){
+                System.out.println(country);
             }
             System.out.println("Введите команду: ");
         } catch (SQLException e) {
