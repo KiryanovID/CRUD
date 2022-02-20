@@ -9,13 +9,14 @@ public class CountryDAO {
     private final JdbcTemplate jdbcTemplate = myJDBCTemplate.getJdbcTemplate();
 
     public void create(String name, long square, int population, Continent continent) {
-
-        jdbcTemplate.update("INSERT INTO country(name,square,population,continent) VALUES(?,?,?,?)", name, square, population, continent);
+        String sql = "INSERT INTO Country(id, name,square,population,continent) VALUES(?,?,?,?,?)";
+        jdbcTemplate.update(sql, name, square, population, continent);
 
     }
 
     public Country read(int find) {
-        Country country = jdbcTemplate.query("SELECT name, square, population, continent FROM country WHERE id = ?;",
+        String sql = "SELECT name, square, population, continent FROM country WHERE id = ?;";
+        Country country = jdbcTemplate.query(sql,
                 new Object[]{find},
                 new CountryMapper()).stream().findAny().orElse(null);
 
@@ -23,8 +24,8 @@ public class CountryDAO {
     }
 
     public void update(int find, Country country) {
-
-        jdbcTemplate.update("UPDATE country SET name = ?, square = ?, population = ?, continent = ? WHERE id = ?;",
+        String sql = "UPDATE country SET name = ?, square = ?, population = ?, continent = ? WHERE id = ?;";
+        jdbcTemplate.update(sql,
                 country.getName(), country.getSquare(), country.getPopulation(), country.getContinent(), find);
 
     }
@@ -35,7 +36,8 @@ public class CountryDAO {
     }
 
     public List<Country> showAll() {
-        List<Country> country = jdbcTemplate.query("select * from country", new CountryMapper());
+        String sql = "SELECT * FROM country";
+        List<Country> country = jdbcTemplate.query(sql, new CountryMapper());
         return country;
     }
 

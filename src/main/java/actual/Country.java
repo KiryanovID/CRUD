@@ -1,9 +1,14 @@
 package actual;
 
+import javax.persistence.*;
 import java.util.Objects;
 
-
+@Entity
+@Table
 public class Country implements Comparable<Country> {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String name;
     private long square;
     private int population;
@@ -18,6 +23,13 @@ public class Country implements Comparable<Country> {
         this.population = population;
         this.continent = continent;
     }
+    public Country(long id, String name, long square, int population, Continent continent) {
+        this.id = id;
+        this.name = name;
+        this.square = square;
+        this.population = population;
+        this.continent = continent;
+    }
 
     @Override
     public String toString() {
@@ -25,8 +37,17 @@ public class Country implements Comparable<Country> {
                 "Страна: '" + name + '\'' +
                         ", площадь: " + square + "кв.км" +
                         ", население: " + population + "чел." +
-                        ", континет: " + continent;
+                        ", континент: " + continent;
     }
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+
 
     public String getName() {
         return name;
@@ -77,4 +98,6 @@ public class Country implements Comparable<Country> {
     public int compareTo(Country o) {
         return this.getName().compareTo(o.getName());
     }
+
+
 }

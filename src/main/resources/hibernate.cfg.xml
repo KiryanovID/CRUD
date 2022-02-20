@@ -5,10 +5,9 @@
 
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.connection.driver_class">org.sqlite.JDBC.Driver</property>
+        <property name="hibernate.connection.driver_class">org.sqlite.JDBC</property>
         <property name="hibernate.connection.url">jdbc:sqlite:./test.db3</property>
-        <property name="hibernate.connection.username"></property>
-        <property name="hibernate.connection.password"></property>
+
         <property name="hibernate.dialect">org.hibernate.dialect.SQLiteDialect</property>
     </session-factory>
 </hibernate-configuration>

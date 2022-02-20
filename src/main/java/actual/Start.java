@@ -5,9 +5,7 @@ import java.util.Scanner;
 public class Start {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        CountryDAO crud = new CountryDAO();
         ConsoleIO consoleIO = new ConsoleIO();
-        try(scanner){
             System.out.println("Введите команду: ");
             while (scanner.hasNext() ){
                 String command = scanner.nextLine().toLowerCase().trim();
@@ -31,5 +29,5 @@ public class Start {
             }
         }
     }
-}
+
 
