@@ -14,13 +14,13 @@ public class ConsoleIO {
     public void create(){
         System.out.println("Введите название страны:");
         String name = scanner.nextLine().trim();
-        System.out.println("Введите континет на котором находится страна:");
-        String conti = scanner.nextLine().toUpperCase(Locale.ROOT).trim();
+        System.out.println("Введите континент на котором находится страна:");
+        String continentTemp = scanner.nextLine().toUpperCase(Locale.ROOT).trim();
         System.out.println("Введите площадь страны:");
         long square = scanner.nextLong();
         System.out.println("Введите население страны:");
         int population = scanner.nextInt();
-        Continent continent = Continent.valueOf(conti);
+        Continent continent = Continent.valueOf(continentTemp);
         crud.create(name,square,population,continent);
         System.out.println(GREEN + "Запись добавлена");
         System.out.println(RESET + "Введите команду: ");
@@ -28,7 +28,7 @@ public class ConsoleIO {
 
     public void read(){
         System.out.println("введите ID страны");
-        int find = scanner.nextInt();
+        long find = scanner.nextLong();
         Country country = crud.read(find);
         System.out.println(country);
         System.out.println("Введите команду: ");
@@ -44,14 +44,14 @@ public class ConsoleIO {
         if (!name.equals("")) {
             country.setName(name);
         }
-        System.out.println("Введите континет на котором находится страна:");
-        String conti = scanner.nextLine().toUpperCase(Locale.ROOT).trim();
-        if (!conti.equals("")) {
+        System.out.println("Введите континент на котором находится страна:");
+        String continent = scanner.nextLine().toUpperCase(Locale.ROOT).trim();
+        if (!continent.equals("")) {
             try {
-                Continent tempContinent = Continent.valueOf(conti);
+                Continent tempContinent = Continent.valueOf(continent);
                 country.setContinent(tempContinent);
             } catch (IllegalArgumentException e) {
-                System.out.println("нет такого континета, изменения не внесены");
+                System.out.println("нет такого континента, изменения не внесены");
             }
         }
         System.out.println("Введите площадь страны:");

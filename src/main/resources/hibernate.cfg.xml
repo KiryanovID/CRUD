@@ -7,7 +7,9 @@
     <session-factory>
         <property name="hibernate.connection.driver_class">org.sqlite.JDBC</property>
         <property name="hibernate.connection.url">jdbc:sqlite:./test.db3</property>
-
         <property name="hibernate.dialect">org.hibernate.dialect.SQLiteDialect</property>
+        <property name="hibernate.show_sql">true</property>
+        <mapping class="actual.Country"/>
+
     </session-factory>
 </hibernate-configuration>

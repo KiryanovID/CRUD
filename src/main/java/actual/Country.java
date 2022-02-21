@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table
+@Table(name="country", schema = "main")
 public class Country implements Comparable<Country> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
