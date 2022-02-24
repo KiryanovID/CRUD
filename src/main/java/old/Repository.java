@@ -1,7 +1,7 @@
 package old;
 
-import actual.Continent;
-import actual.Country;
+import ru.kiryanov.Continent;
+import ru.kiryanov.Country;
 
 import java.util.HashMap;
 import java.util.Map;
