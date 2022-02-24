@@ -38,56 +38,28 @@ public class ConsoleIO {
         System.out.println("введите ID страны");
         int find = scanner.nextInt();
         scanner.nextLine();
-        Country country = crud.read(find);
         System.out.println("Введите название страны:");
         String name = scanner.nextLine().trim();
-        if (!name.equals("")) {
-            country.setName(name);
-        }
+
         System.out.println("Введите континент на котором находится страна:");
         String continent = scanner.nextLine().toUpperCase(Locale.ROOT).trim();
-        if (!continent.equals("")) {
-            try {
-                Continent tempContinent = Continent.valueOf(continent);
-                country.setContinent(tempContinent);
-            } catch (IllegalArgumentException e) {
-                System.out.println("нет такого континента, изменения не внесены");
-            }
-        }
+        Continent continentTemp = Continent.valueOf(continent);
         System.out.println("Введите площадь страны:");
-        try {
             String strLong = scanner.nextLine();
             long square = Long.parseLong(strLong);
-            if (square < 0) {
-                country.setSquare(0);
-                System.out.println("Установленно значение по умолчанию равное 0");
-            } else {
-                country.setSquare(square);
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("Значение не изменено");
-        }
 
         System.out.println("Введите население страны:");
-        try {
+
             String strInt = scanner.nextLine();
             int population = Integer.parseInt(strInt);
-            if (population < 0) {
-                country.setPopulation(0);
-                System.out.println("Установленно значение по умолчанию равное 0");
-            } else {
-                country.setPopulation(population);
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("Значение не изменено");
-        }
-        crud.update(find,country);
+
+        crud.update(find, name,square,population,continentTemp);
         System.out.println("Введите команду: ");
     }
 
     public void delete(){
         System.out.println("введите ID страны");
-        int find = scanner.nextInt();
+        long find = scanner.nextInt();
         crud.delete(find);
         System.out.println(RED + "Запись удалена ");
         System.out.println(RESET + "Введите команду: ");
